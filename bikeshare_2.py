@@ -196,24 +196,12 @@ def raw_data(df):
 
     user_input = input("Would you like to see the first 5 rows of the data? Type 'yes' or 'no': ").lower()
 
-    while user_input not in ['yes', 'no']:
-        print("Please enter a valid choice.")
+    x = 0
+    while user_input != 'no' and user_input in ["yes", "no"]:
+        x = x + 5
+        print(df.head(x))
         user_input = input("Would you like to see the first 5 rows of the data? Type 'yes' or 'no': ").lower()
-
-    if user_input == 'yes':
-        index = 0
-
-        while index + 5 < df.shape[0]:
-            print(df.iloc[index:index + 5])
-            index += 5
-            user_input = input("If you would like to see more rows of the data, type 'yes': ").lower()
-
-            if user_input != 'yes':
-                print('Thank you.')
-                break
-
-    else:
-        print("Thank you.")
+    print("Thank you")
 
 
 def main():
