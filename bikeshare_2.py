@@ -6,8 +6,31 @@ CITY_DATA = {'chicago': 'chicago.csv',
              'new york city': 'new_york_city.csv',
              'washington': 'washington.csv'}
 
+def check_data_entry(prompt, valid_entries): 
+    """
+    Asks user to type some input and verify if the entry typed is valid.
+    Since we have 3 inputs to ask the user in get_filters(), it is easier to write a function.
+    Args:
+        (str) prompt - message to display to the user
+        (list) valid_entries - list of string that should be accepted 
+    Returns:
+        (str) user_input - the user's valid input
+    """
+    try:
+        user_input = str(input(prompt)).lower()
 
-def get_filters():
+        while user_input not in valid_entries : 
+            print('Sorry... it seems like you\'re not typing a correct entry.')
+            print('Let\'s try again!')
+            user_input = str(input(prompt)).lower()
+
+        print('Great! the chosen entry is: {}\n'.format(user_input))
+        return user_input
+
+    except:
+        print('Seems like there is an issue with your input')
+
+def get_filters(): 
     """
     Asks user to specify a city, month, and day to analyze.
 
@@ -16,35 +39,29 @@ def get_filters():
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
-    print('Hello! Let\'s explore some US bikeshare data!')
+
+    print('Hi there! Let\'s explore some US bikeshare data!')
+
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    city = input("Would you like to see data for Chicago, New York, or Washington? ").lower()
-    while city not in CITY_DATA.keys():
-        print('Please Enter a Valid City')
-        city = input("choose a city to see data for Chicago, New York, or Washington? ")
+    valid_cities = CITY_DATA.keys()
+    prompt_cities = 'Please choose one of the 3 cities (chicago, new york city, washington): '
+    city = check_data_entry(prompt_cities, valid_cities)
+
 
     # get user input for month (all, january, february, ... , june)
-    months = ["all", "january", "february", "june"]
-    while True:
-
-        month = input("choose a month: (all, january, february, ... , june). ").lower()
-        if month in months:
-            break
-        else:
-            print("Invalid input!")
+    valid_months = ['all','january','february','march','april','may','june']
+    prompt_month = 'Please choose a month (all, january, february, ... , june): '
+    month = check_data_entry(prompt_month, valid_months)
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
-    days = ["all", "monday", "tuesday", "sunday", "thursday", "friday", "saturday", "sunday"]
-    while True:
+    valid_days = ['all','monday','tuesday','wednesday','thursday','friday','saturday', 'sunday']
+    prompt_day = 'Please choose a day (all, monday, tuesday, ... sunday): '
+    day = check_data_entry(prompt_day, valid_days)
 
-        day = input("choose a day: (all, monday, tuesday, ... sunday). ").lower()
-        if day in days:
-            break
-        else:
-            print("Invalid input!")
 
-    print('-' * 40)
+    print('-'*40)
     return city, month, day
+
 
 
 def load_data(city, month, day):
@@ -179,24 +196,12 @@ def raw_data(df):
 
     user_input = input("Would you like to see the first 5 rows of the data? Type 'yes' or 'no': ").lower()
 
-    while user_input not in ['yes', 'no']:
-        print("Please enter a valid choice.")
+    x = 0
+    while user_input != 'no' and user_input in ["yes", "no"]:
+        x = x + 5
+        print(df.head(x))
         user_input = input("Would you like to see the first 5 rows of the data? Type 'yes' or 'no': ").lower()
-
-    if user_input == 'yes':
-        index = 0
-
-        while index + 5 < df.shape[0]:
-            print(df.iloc[index:index + 5])
-            index += 5
-            user_input = input("If you would like to see more rows of the data, type 'yes': ").lower()
-
-            if user_input != 'yes':
-                print('Thank you.')
-                break
-
-    else:
-        print("Thank you.")
+    print("Thank you")
 
 
 def main():
