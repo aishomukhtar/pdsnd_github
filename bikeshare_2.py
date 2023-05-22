@@ -174,7 +174,7 @@ def user_stats(df, city):
 
 def raw_data(df):
     """
-    displays the raw data from a DataFrame  rows at a time, based on user input
+    displays the raw data from a DataFrame 5 rows at a time, based on user input(yes or no)
     """
 
     user_input = input("Would you like to see the first 5 rows of the data? Type 'yes' or 'no': ").lower()
